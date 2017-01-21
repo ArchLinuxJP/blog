@@ -6,15 +6,19 @@ build:
         config: config.toml
         prod_branches: master
   after-steps:
+    - install-packages:
+        packages: ruby
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
-        channel: private
+        channel: github
 deploy:
   steps:
     - lukevivier/gh-pages@0.2.1:
         token: $GITHUB_TOKEN
         basedir: public
   after-steps:
+    - install-packages:
+        packages: ruby
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
-        channel: private
+        channel: github
