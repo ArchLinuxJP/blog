@@ -1,7 +1,7 @@
 ---
 author: "syui"
 date: 2017-01-21
-title: DockerのArchイメージ
+title: ArchのDockerイメージ
 weight: 10
 ---
 
@@ -37,7 +37,7 @@ $ sudo docker build -t tmp .
 $ sudo docker run -it tmp /bin/bash
 ```
 
-### DockerのArch Linuxのイメージを作成する
+### Arch LinuxのDockerイメージを作成する
 
 ```bash
 $ sudo docker pull archlinuxjp/docker-arch
