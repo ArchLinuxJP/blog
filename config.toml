@@ -1,0 +1,8 @@
+baseurl = "https://archlinuxjp.github.io/blog"
+languageCode = "ja"
+title = "archlinuxjp.blog"
+copyright = "&copy; <a href=\"https://github.com/archlinuxjp\">Arch Linux JP</a>"
+
+[params]
+date_format = "2006-01-02"
+
