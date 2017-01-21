@@ -19,8 +19,6 @@ deploy:
         token: $GITHUB_TOKEN
         basedir: public
   after-steps:
-    - install-packages:
-        packages: ruby
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
         channel: github
