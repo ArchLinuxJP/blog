@@ -1,0 +1,38 @@
+article+article {
+	margin-top: 30px;
+}
+span.icon-archlinuxjp { 
+	font-size: 50px;
+	color: #4183c4;
+	padding:30px;
+}
+h1.title.is-4 {
+	color: #268bd2;
+}
+
+@media screen and (max-width: 360px) {
+	h1.title.is-4 {
+		display:none;
+	}
+	span.icon-archlinuxjp { 
+		padding:0px;
+	}
+	.container>.nav>.nav-left>.nav-item:first-child:not(.is-tab) {
+		padding-left: 40%;
+	}
+}
+
+.content blockquote {
+	padding:0;
+	padding-left: 1em;
+
+}
+
+.block:not(:last-child), .box:not(:last-child), .content:not(:last-child), .notification:not(:last-child), .progress:not(:last-child), .title:not(:last-child), .subtitle:not(:last-child), .highlight:not(:last-child), .level:not(:last-child), .message:not(:last-child), .tabs:not(:last-child) {
+	margin-bottom: 30px;
+}
+
+a {
+	word-wrap: break-word;
+}
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://archlinuxjp.github.io/blog/</loc>
+    <lastmod>2017-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://archlinuxjp.github.io/blog/post/docker-arch-2/</loc>
+    <lastmod>2017-01-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://archlinuxjp.github.io/blog/post/docker-arch/</loc>
+    <lastmod>2017-01-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://archlinuxjp.github.io/blog/post/blog-restart/</loc>
+    <lastmod>2017-01-21T00:00:00+00:00</lastmod>
+  </url>
+  
+</urlset>

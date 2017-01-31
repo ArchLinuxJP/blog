@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>archlinuxjp.blog</title>
+    <link>https://archlinuxjp.github.io/blog/index.xml</link>
+    <description>Recent content on archlinuxjp.blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/archlinuxjp&#34;&gt;Arch Linux JP&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 29 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://archlinuxjp.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>複数あったGitHubリポジトリ(Docker関連)を一つに</title>
+      <link>https://archlinuxjp.github.io/blog/post/docker-arch-2/</link>
+      <pubDate>Sun, 29 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://archlinuxjp.github.io/blog/post/docker-arch-2/</guid>
+      <description>&lt;p&gt;複数あったDocker関連のGitHubリポジトリを一つにまとめました。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/ArchLinuxJP/docker-arch&#34;&gt;https://github.com/ArchLinuxJP/docker-arch&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;仕組みなどは以前と変わりません。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ArchのDockerイメージ</title>
+      <link>https://archlinuxjp.github.io/blog/post/docker-arch/</link>
+      <pubDate>Sat, 21 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://archlinuxjp.github.io/blog/post/docker-arch/</guid>
+      <description>
+
+&lt;p&gt;Arch Linux JPでArch LinuxのDockerイメージを配布しはじめました。&lt;/p&gt;
+
+&lt;p&gt;理由としては、DockerのArch Linuxイメージでどれを使えば良いのか迷ってしまう問題やイメージが古くなってしまう問題に対応するためです。&lt;/p&gt;
+
+&lt;p&gt;当該Dockerイメージは透明性のある方式でビルドされ、毎日アップデートした上でPushされます。ただし、この方式は予告なく変更される可能性があります(Travis CIの一部機能に依存するため)。&lt;/p&gt;
+
+&lt;h2 id=&#34;配布されているdockerイメージを使用する&#34;&gt;配布されているDockerイメージを使用する&lt;/h2&gt;
+
+&lt;h3 id=&#34;直接実行する&#34;&gt;直接実行する&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo docker pull archlinuxjp/archlinux
+$ sudo docker run -it archlinuxjp/archlinux /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;ビルドして実行する&#34;&gt;ビルドして実行する&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;に記述し、ビルドして使用する場合はこちら&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Dockerfile&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;FROM archlinuxjp/archlinux
+RUN pacman -S $PACK --noconfirm
+CMD /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo docker build -t tmp .
+$ sudo docker run -it tmp /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;arch-linuxのdockerイメージを作成する&#34;&gt;Arch LinuxのDockerイメージを作成する&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ sudo docker pull archlinuxjp/docker-arch
+$ sudo docker run -v /var/run/docker.sock:/var/run/docker.sock --privileged -d -it archlinuxjp/docker-arch /bin/bash
+$ export id=`sudo docker ps -q | peco`
+$ sudo docker exec $id docker-arch base
+$ sudo docker exec $id /bin/bash /mkimage-arch-jp.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用する&lt;code&gt;docker-arch&lt;/code&gt;コマンドはオプションによって使用するスクリプトが異なります。詳しくはGitHubの&lt;a href=&#34;https://github.com/ArchLinuxJP/docker-mkimage-arch/tree/master/mkimage-arch&#34;&gt;リポジトリ&lt;/a&gt;をご確認ください。&lt;/p&gt;
+
+&lt;h2 id=&#34;イメージの内容&#34;&gt;イメージの内容&lt;/h2&gt;
+
+&lt;p&gt;基本的には以下のフローでイメージがアップデートされ続けています。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+--------+  Travis CI (Cron Jobs)   +------------+
+| GitHub | -----------------------&amp;gt; | Docker Hub |
++--------+                          +------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;具体的なアップデート方法は、Docker in Docker内でArch Linuxを起動し、その中で&lt;a href=&#34;https://github.com/docker/docker/blob/master/contrib/mkimage-arch.sh&#34;&gt;docker/docker&lt;/a&gt;のスクリプトを一部変更して実行するというものになっています。&lt;/p&gt;
+
+&lt;p&gt;Arch LinuxのDockerイメージを作成するために使用されるスクリプトはGitHubの各リポジトリで公開されています。&lt;/p&gt;
+
+&lt;p&gt;何かありましたら、&lt;a href=&#34;https://archlinuxjp.slack.com&#34;&gt;Slack&lt;/a&gt;もしくは、&lt;a href=&#34;https://github.com/ArchLinuxJP&#34;&gt;GitHub&lt;/a&gt;のIssueやPull Reqにてお願いします。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ブログの再開</title>
+      <link>https://archlinuxjp.github.io/blog/post/blog-restart/</link>
+      <pubDate>Sat, 21 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://archlinuxjp.github.io/blog/post/blog-restart/</guid>
+      <description>&lt;p&gt;しばらくブログの更新が停滞していましたが、定期的に活動内容を記録していこうと考えています。よろしくお願いします。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

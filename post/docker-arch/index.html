@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArchのDockerイメージ | archlinuxjp.blog</title>
+<link rel="stylesheet" href="https://archlinuxjp.github.io/blog/css/style.css">
+<link rel="stylesheet" href="https://archlinuxjp.github.io/blog/css/origin.css">
+<link rel="stylesheet" href="/bower_components/icomoon/css/icomoon.css">
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://archlinuxjp.github.io/blog"><span class="icon-archlinuxjp"></span><h1 class="title is-4">archlinuxjp.blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="subtitle is-6">2017-01-21</h2>
+    <h1 class="title">ArchのDockerイメージ</h1>
+    <div class="content">
+      
+
+<p>Arch Linux JPでArch LinuxのDockerイメージを配布しはじめました。</p>
+
+<p>理由としては、DockerのArch Linuxイメージでどれを使えば良いのか迷ってしまう問題やイメージが古くなってしまう問題に対応するためです。</p>
+
+<p>当該Dockerイメージは透明性のある方式でビルドされ、毎日アップデートした上でPushされます。ただし、この方式は予告なく変更される可能性があります(Travis CIの一部機能に依存するため)。</p>
+
+<h2 id="配布されているdockerイメージを使用する">配布されているDockerイメージを使用する</h2>
+
+<h3 id="直接実行する">直接実行する</h3>
+
+<pre><code class="language-bash">$ sudo docker pull archlinuxjp/archlinux
+$ sudo docker run -it archlinuxjp/archlinux /bin/bash
+</code></pre>
+
+<h3 id="ビルドして実行する">ビルドして実行する</h3>
+
+<p><code>Dockerfile</code>に記述し、ビルドして使用する場合はこちら</p>
+
+<blockquote>
+<p>Dockerfile</p>
+</blockquote>
+
+<pre><code class="language-bash">FROM archlinuxjp/archlinux
+RUN pacman -S $PACK --noconfirm
+CMD /bin/bash
+</code></pre>
+
+<pre><code class="language-bash">$ sudo docker build -t tmp .
+$ sudo docker run -it tmp /bin/bash
+</code></pre>
+
+<h3 id="arch-linuxのdockerイメージを作成する">Arch LinuxのDockerイメージを作成する</h3>
+
+<pre><code class="language-bash">$ sudo docker pull archlinuxjp/docker-arch
+$ sudo docker run -v /var/run/docker.sock:/var/run/docker.sock --privileged -d -it archlinuxjp/docker-arch /bin/bash
+$ export id=`sudo docker ps -q | peco`
+$ sudo docker exec $id docker-arch base
+$ sudo docker exec $id /bin/bash /mkimage-arch-jp.sh
+</code></pre>
+
+<p>使用する<code>docker-arch</code>コマンドはオプションによって使用するスクリプトが異なります。詳しくはGitHubの<a href="https://github.com/ArchLinuxJP/docker-mkimage-arch/tree/master/mkimage-arch">リポジトリ</a>をご確認ください。</p>
+
+<h2 id="イメージの内容">イメージの内容</h2>
+
+<p>基本的には以下のフローでイメージがアップデートされ続けています。</p>
+
+<pre><code>+--------+  Travis CI (Cron Jobs)   +------------+
+| GitHub | -----------------------&gt; | Docker Hub |
++--------+                          +------------+
+</code></pre>
+
+<p>具体的なアップデート方法は、Docker in Docker内でArch Linuxを起動し、その中で<a href="https://github.com/docker/docker/blob/master/contrib/mkimage-arch.sh">docker/docker</a>のスクリプトを一部変更して実行するというものになっています。</p>
+
+<p>Arch LinuxのDockerイメージを作成するために使用されるスクリプトはGitHubの各リポジトリで公開されています。</p>
+
+<p>何かありましたら、<a href="https://archlinuxjp.slack.com">Slack</a>もしくは、<a href="https://github.com/ArchLinuxJP">GitHub</a>のIssueやPull Reqにてお願いします。</p>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/archlinuxjp">Arch Linux JP</a></p>
+  </div>
+</section>
+
